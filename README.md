@@ -5,6 +5,7 @@ authenticate users either by ldap or username password, according to configurati
 without configuration, access is unrestricted
 
 example configuration
+
         {
           "passwords": {
             "foo": ["sha256", "fcde2b2edxx56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9"]
