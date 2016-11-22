@@ -1,0 +1,23 @@
+{
+  "name": "authentication.js",
+  "version": "0.0.0",
+  "description": "NodeJS Authentication Module for Username-Password or LDAP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mwaeckerlin/authentication.js"
+  },
+  "keywords": [
+    "authentication",
+    "ldap",
+    "password"
+  ],
+  "author": "Marc Wäckerlin <marc@waeckerlin.org> (https://marc.xn--wckerlin-0za.ch/)",
+  "license": "LGPL3",
+  "bugs": {
+    "url": "https://github.com/mwaeckerlin/authentication.js/issues"
+  }
+}
