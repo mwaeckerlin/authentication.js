@@ -120,6 +120,7 @@ This configuration uses SHA256 hash algorithm and stores the following usernames
   * `user` `password`
   * `streng` `geheim`
 
+
     {
       "passwords": {
         "foo": ["sha256", "fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9"],
@@ -143,6 +144,8 @@ LDAP is looked up using [DimensionSoftware/node-ldapauth](https://github.com/Dim
     }
 
 ## Combine Username Password and LDAP Lookup
+
+If you combine username password and LDAP, then LDAP is used, if a username is not in the `"passwords"` map.
 
     {
       "passwords": {
