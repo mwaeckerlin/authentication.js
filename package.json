@@ -1,6 +1,6 @@
 {
   "name": "authentication.js",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "dependencies": {
     "ldapauth": "git+https://github.com/DimensionSoftware/node-ldapauth.git"
   },

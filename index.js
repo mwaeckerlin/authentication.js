@@ -1,8 +1,7 @@
-var crypto = require('crypto');
-var LdapAuth = require('ldapauth');
-
 module.exports = function(config) {
 
+  var crypto = require('crypto');
+  var LdapAuth = require('ldapauth');
   var authentication;
   
   if (config) {
@@ -65,10 +64,7 @@ module.exports = function(config) {
   } else {
 
     authentication = function (username, password, success, fail) {
-      console.log('**** Error: no access configuraion. To allow any user, add:')
-      console.log('            "restrict": {');
-      console.log('              "unrestricted": true');
-      console.log('            }');
+      console.log('**** Warning: no access configuration, no access granted.')
       fail(username);
     }
 
