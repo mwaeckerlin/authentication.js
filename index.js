@@ -1,7 +1,8 @@
+var crypto = require('crypto');
+var LdapAuth = require('ldapauth');
+
 module.exports = function(config) {
 
-  var crypto = require('crypto');
-  var LdapAuth = require('ldapauth');
   var authentication;
   
   if (config) {
