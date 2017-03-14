@@ -12,6 +12,10 @@ The module returns a function that takes a username, a password, a function that
 function(username, password, success, fail);
 ```
 
+`success` is a callback that is given the `username` as parameter.
+
+`fail` is a callback that is given the `username` as parameter plus a string `where` that specifies on which step the authentication failed and optionally an error `err` which is the error received on failure. These two additional parameters should help to debug login problems on the server.
+
 ## Server Side
 
 To create an authenticated websocket connection, write something like:
@@ -36,11 +40,11 @@ require('socketio-auth')(io, {
     // this is the function returned by the authentication.js library:
     authentication(data.username, data.password,
                    function() {
-                     console.log("####LOGIN-SUCESS####");
+                     console.log("user logged in", username)
                      callback(null, true)
                    },
                    function() {
-                     console.log("####LOGIN-FAILED####");
+                     console.log("login failed", username, where, err)
                      callback(new Error("wrong credentials"))
                    });
   },
@@ -144,14 +148,15 @@ This configuration uses SHA256 hash algorithm and stores the following usernames
 
 ## LDAP Lookup
 
-LDAP is looked up using [DimensionSoftware/node-ldapauth](https://github.com/DimensionSoftware/node-ldapauth.git):
+Anonymous bind is possible, just don't specify `bindDn` and `bindPassword`. LDAP is looked up using [ldapjs](http://ldapjs.org):
 
 ```json
 {
   "ldap": {
+    "starttls": true,
     "url": "ldap://dev.marc.waeckerlin.org",
-    "adminDn": "cn=tmp,ou=system,ou=people,dc=dev,dc=marc,dc=waeckerlin,dc=org",
-    "adminPassword": "secret",
+    "bindDn": "cn=tmp,ou=system,ou=people,dc=dev,dc=marc,dc=waeckerlin,dc=org",
+    "bindPassword": "secret",
     "searchBase": "ou=person,ou=people,dc=dev,dc=marc,dc=waeckerlin,dc=org",
     "searchFilter": "(uid={{username}})"
   }

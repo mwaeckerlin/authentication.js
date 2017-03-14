@@ -1,8 +1,8 @@
 {
   "name": "authentication.js",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "dependencies": {
-    "ldapauth": "git+https://github.com/DimensionSoftware/node-ldapauth.git"
+    "ldapjs": "^1.0.1"
   },
   "description": "NodeJS Authentication Module for Username-Password or LDAP",
   "main": "index.js",
