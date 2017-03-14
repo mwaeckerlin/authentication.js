@@ -4,7 +4,7 @@ module.exports = function(config) {
   var LdapAuth = require('ldapjs');
   var authentication;
 
-  function (auth, username, password, success, fail) {
+  function search(auth, username, password, success, fail) {
     var res = auth.search(config.ldap.searchBase, {
       scope: 'sub',
       filter: config.ldap.searchFilter.replace('{{username}}', username),
@@ -22,8 +22,8 @@ module.exports = function(config) {
   }
   
   function bind(auth, username, password, success, fail) {
-    if (config.admin.adminDn&&config.ldap.bindPassword)
-      auth.bind(config.admin.adminDn, config.ldap.bindPassword, function(err) {
+    if (config.ldap.bindDn&&config.ldap.bindPassword)
+      auth.bind(config.ldap.bindDn, config.ldap.bindPassword, function(err) {
         if (err) return fail(username, 'ldap-bind', err);
         search(auth, username, password, success, fail)
       });
