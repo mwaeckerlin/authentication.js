@@ -5,28 +5,40 @@ module.exports = function(config) {
   var authentication;
 
   function search(auth, username, password, success, fail) {
-    var res = auth.search(config.ldap.searchBase, {
-      scope: 'sub',
-      filter: config.ldap.searchFilter.replace('{{username}}', username),
-      attributes: ['dn']
-    }, function(err, res) {
+    try {
+      var res = auth.search(config.ldap.searchBase, {
+        scope: 'sub',
+        filter: config.ldap.searchFilter.replace('{{username}}', username),
+        attributes: ['dn']
+      }, function(err, res) {
         if (err) return fail(username, 'ldap-search', err);
-      res.on('searchEntry', function(entry) {
-        console.log(entry.objectName)
-        auth.bind(entry.objectName, password, function(err) {
-          if (err) return fail(username, 'ldap-authenticate', err);
-          return success(username)
-        })
+        try {
+          res.on('searchEntry', function(entry) {
+            console.log(entry.objectName)
+            auth.bind(entry.objectName, password, function(err) {
+              if (err) return fail(username, 'ldap-authenticate', err);
+              return success(username)
+            })
+          })
+        } catch (e) {
+          return fail(username, 'ldap-authenticate-exception', e)
+        }
       })
-    })
+    } catch (e) {
+      return fail(username, 'ldap-search-exception', e)
+    }
   }
   
   function bind(auth, username, password, success, fail) {
     if (config.ldap.bindDn&&config.ldap.bindPassword)
-      auth.bind(config.ldap.bindDn, config.ldap.bindPassword, function(err) {
-        if (err) return fail(username, 'ldap-bind', err);
-        search(auth, username, password, success, fail)
-      });
+      try {
+        auth.bind(config.ldap.bindDn, config.ldap.bindPassword, function(err) {
+          if (err) return fail(username, 'ldap-bind', err);
+          search(auth, username, password, success, fail)
+        });
+      } catch (e) {
+        return fail(username, 'ldap-bind-exception', e)
+      }
     else
       search(auth, username, password, success, fail);
   }
