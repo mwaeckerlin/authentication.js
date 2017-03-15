@@ -6,7 +6,7 @@ module.exports = function(config) {
 
   function search(auth, username, password, success, fail) {
     try {
-      var res = auth.search(config.ldap.searchBase, {
+      auth.search(config.ldap.searchBase, {
         scope: 'sub',
         filter: config.ldap.searchFilter.replace('{{username}}', username),
         attributes: ['dn']
@@ -45,9 +45,9 @@ module.exports = function(config) {
   if (config) {
 
     authentication = function (username, password, success, fail) {
-      console.log("...try: ", username);
+      if (config.unrestricted) return success(username);
+      if (!username) return fail(username, 'empty-username');
       if (config.passwords && config.passwords[username]) {
-        console.log("...check hash");
         if (crypto.getHashes().indexOf(config.passwords[username][0])>=0) {
           if (crypto.createHash(config.passwords[username][0]).update(password, 'utf8').digest('hex') === config.passwords[username][1]) {
             success(username);
@@ -57,7 +57,7 @@ module.exports = function(config) {
             return;
           }
         } else {
-          console.log("**** HASH NOT FOUND ****");
+          console.log('**** HASH NOT FOUND ****');
           console.log(config.passwords[username][0]);
           console.log(crypto.getHashes());
           fail(username, 'password-hash');
@@ -65,7 +65,7 @@ module.exports = function(config) {
         }
       }
       if (config.ldap) try {
-        console.log("...check ldap");
+        console.log('...check ldap');
         var auth = LdapAuth.createClient(config.ldap);
         if (config.ldap.starttls) {
           process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
@@ -80,10 +80,7 @@ module.exports = function(config) {
       } catch (e) {
         fail(username, 'ldap-exception', e);
       }
-      if (config.unrestricted)
-        return success(username);
-      else
-        return fail(username, 'restricted');
+      return fail(username, 'restricted');
     }
 
   } else {
