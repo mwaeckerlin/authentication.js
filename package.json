@@ -1,7 +1,8 @@
 {
   "name": "authentication.js",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "dependencies": {
+    "fs": "0.0.1-security",
     "ldapjs": "^1.0.1"
   },
   "description": "NodeJS Authentication Module for Username-Password or LDAP",
