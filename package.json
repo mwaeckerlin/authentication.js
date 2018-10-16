@@ -2,8 +2,8 @@
   "name": "authentication.js",
   "version": "2.1.0",
   "dependencies": {
-    "fs": "0.0.1-security",
-    "ldapjs": "^1.0.1"
+    "fs": "*",
+    "ldapjs": "*"
   },
   "description": "NodeJS Authentication Module for Username-Password or LDAP",
   "main": "index.js",
@@ -20,7 +20,7 @@
     "password"
   ],
   "author": "Marc Wäckerlin <marc@waeckerlin.org> (https://marc.xn--wckerlin-0za.ch/)",
-  "license": "LGPL3",
+  "license": "LGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/mwaeckerlin/authentication.js/issues"
   }
